@@ -1,0 +1,58 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Evolving Colors</title>
+  
+    <script type="text/javascript" src="./assetmanager.js"></script>
+    <script type="text/javascript" src="./timer.js"></script>
+    <script type="text/javascript" src="./gameengine.js"></script>
+    <script type="text/javascript" src="./util.js"></script>
+    <script type="text/javascript" src="./main.js"></script>
+    <script type="text/javascript" src="./model/automata.js"></script>
+    <script type="text/javascript" src="./model/plant.js"></script>
+    <script type="text/javascript" src="./model/animat.js"></script>
+</head>
+<body>
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
+        <canvas id="gameWorld" width="1440" height="810" style="background: white; border: 1px solid black" tabindex="0" autofocus></canvas>
+        <div id="ticks">Ticks: 0</div>
+        <div style="display: flex; justify-content: space-between;">
+            <div style="padding-right: 40px;">
+                <label for="plantGrowth">Plant Growth</label>
+                <div>
+                    <label for="plantGrowth">Low</label>
+                    <input type="range" id="plantGrowth" min="1" max="100" value="25" step="1">
+                    <label for="plantGrowth">High</label>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <button id="addPlant">Add Plant</button>
+                </div>
+            </div>
+            <div style="padding-right: 40px;">
+                <label for="animatGrowth">Animat Growth</label>
+                <div>
+                    <label for="animatGrowth">Low</label>
+                    <input type="range" id="animatGrowth" min="1" max="100" value="10" step="1">
+                    <label for="animatGrowth">High</label>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <button id="addAnimat">Add Animat</button>
+                </div>
+            </div>
+            <div>
+                <label for="animatFoodSelectivity">Animat Food Selectivity</label>
+                <div>
+                    <label for="animatFoodSelectivity">Low</label>
+                    <input type="range" id="animatFoodSelectivity" min="1" max="100" value="50" step="1">
+                    <label for="animatFoodSelectivity">High</label>
+                </div>
+                <div style="display: flex; justify-content: center;">
+                    <button id="clearAll">Clear All</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
