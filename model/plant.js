@@ -15,26 +15,24 @@ class Plant {
     }
 
     update(rate) {
-        if (++this.ticks % (rate / 50 + (5 - Math.round(Math.random(2)))) != 0) return null;
-        this.growth += rate;
-        if (Math.random() < 0.01) {
-            return 0;
-        }
+
+        this.growth += rate / 10;
         if (this.growth > 100) {
             this.growth = 0;
             return this.createMutation();
         }
         return null;
+    
     }
 
     draw(ctx, x, y) {
         ctx.restore();
-		ctx.strokeRect(x * 6 - 1, y * 6 - 1, 7, 7);
+		ctx.strokeRect(5 + x * 8 - 1, 1 + y * 8 - 1, 9, 9);
         ctx.save();
 
-        ctx.fillStyle = hsl(this.hue, this.growth * 40 / 100 + 40, 50);
-		ctx.strokeStyle = "light gray";
-		ctx.fillRect(x * 6, y * 6, 5, 5);
+        ctx.fillStyle = hsl(this.hue, this.growth * 40 / 200 + 40, 50);
+		ctx.strokeStyle = "gray";
+		ctx.fillRect(5 + x * 8, 1 + y * 8, 7, 7);
     }
 
 }

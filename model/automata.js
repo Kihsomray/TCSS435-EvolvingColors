@@ -19,8 +19,8 @@
 
 class Automata {
 
-    WIDTH = 240;
-    HEIGHT = 135;
+    WIDTH = 179;
+    HEIGHT = 101;
 
     tarnoid;
     plantGrowth; // 0-100
@@ -32,12 +32,11 @@ class Automata {
 
     constructor() {
 
-        this.clearTarnoid();
+        this.clear();
         this.plantGrowth = 9;
         this.animatGrowth = 24;
         this.animatFoodSelectivity = 49;
         this.intervalCounter = 0;
-        this.ticks = 0;
 
         this.init();
 
@@ -57,46 +56,47 @@ class Automata {
             this.tarnoid[Math.floor(Math.random() * this.WIDTH)][Math.floor(Math.random() * this.HEIGHT)] = new Animat()
         );
         
-        document.getElementById('clearAll').addEventListener('click', e => this.clearTarnoid());
+        document.getElementById('clearAll').addEventListener('click', e => this.clear());
 
     }
     
-    clearTarnoid() {
+    clear() {
+        this.ticks = 0;
         this.tarnoid = Array.from({length: this.WIDTH}, () => new Array(this.HEIGHT).fill(null));
     }
 
 
     update() {
 
+        document.getElementById('ticks').innerHTML = `Ticks: ${this.ticks++}`;
         for (let i = 0; i < this.WIDTH; i++) {
             for (let j = 0; j < this.HEIGHT; j++) {
 
                 if (this.tarnoid[i][j] != null) {
 
-                    const cell = this.tarnoid[i][j];
-
-                    let rate = 0;
-                    if (cell instanceof Plant) {
-                        rate = this.plantGrowth;
-                    } else if (cell instanceof Animat) {
-                        rate = this.animatGrowth;
+                    if (Math.random() < (document.getElementById('lowerDyingRate').checked ? 0.001 : 0.01)) {
+                        this.tarnoid[i][j] = null;
+                        continue;
                     }
 
+                    const cell = this.tarnoid[i][j];
+                    const isPlant = cell instanceof Plant;
 
-                    const val = cell.update(rate);
+                    const rate = isPlant ? this.plantGrowth : this.animatGrowth;
+                    let val = cell.update(rate);
 
-                    if (val == 0) {
-                        this.tarnoid[i][j] = null;
-
-                    } else if (val != null) {
+                    if (val != null) {
                         
                         let r1 = 0, r2 = 0;
-                        while (r1 == 0 && r2 == 0) {
-                            r1 = randomInt(3) - 1;
-                            r2 = randomInt(3) - 1;
+
+                        if (isPlant) {
+                            while (r1 == 0 && r2 == 0) {
+                                r1 = randomInt(3) - 1;
+                                r2 = randomInt(3) - 1;
+                            }
+                            r1 += i;
+                            r2 += j;
                         }
-                        r1 += i;
-                        r2 += j;
 
                         if (r1 > this.WIDTH - 1) r1 = 0;
                         else if (r1 < 0) r1 = this.WIDTH - 1;
