@@ -2,7 +2,6 @@ class Plant {
 
     hue;
     growth;
-    ticks;
 
     constructor(hue = Math.random() * 360) {
         this.hue = hue;
@@ -11,15 +10,31 @@ class Plant {
     }
 
     createMutation() {
-        return new Plant(this.hue + Math.random() * 10 - 5);
+        return new Plant(this.hue + Math.random() * 16 - 8);
     }
 
-    update(rate) {
+    update(rate, tarnoid, i, j) {
 
         this.growth += rate / 10;
         if (this.growth > 100) {
-            this.growth = 0;
-            return this.createMutation();
+
+            let r1 = 0, r2 = 0;
+            while (r1 == 0 && r2 == 0) {
+                r1 = randomInt(3) - 1;
+                r2 = randomInt(3) - 1;
+            }
+            r1 += i;
+            r2 += j;
+
+            if (r1 > WIDTH - 1) r1 = 0;
+            else if (r1 < 0) r1 = WIDTH - 1;
+            if (r2 > HEIGHT - 1) r2 = 0;
+            else if (r2 < 0) r2 = HEIGHT - 1;
+
+            if (!tarnoid[r1][r2]) {
+                this.growth = 0;
+                tarnoid[r1][r2] = this.createMutation();
+            }
         }
         return null;
     
