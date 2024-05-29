@@ -64,7 +64,7 @@ class Animat {
     draw(ctx, x, y) {
 
         ctx.beginPath();
-        ctx.arc(6 + x * 8, 4 + y * 8, 4, 0, 2 * Math.PI);
+        ctx.arc(5 + x * 8, 4 + y * 8, 4, 0, 2 * Math.PI);
         ctx.fillStyle = hsl(this.hue, 70, 50);
         ctx.fill();
         ctx.stroke();

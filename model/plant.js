@@ -42,12 +42,12 @@ class Plant {
 
     draw(ctx, x, y) {
         ctx.restore();
-		ctx.strokeRect(3 + x * 8 - 1, 1 + y * 8 - 1, 9, 9);
+		ctx.strokeRect(2 + x * 8 - 1, 1 + y * 8 - 1, 9, 9);
         ctx.save();
 
         ctx.fillStyle = hsl(this.hue, this.growth * 40 / 200 + 40, 50);
 		ctx.strokeStyle = "gray";
-		ctx.fillRect(3 + x * 8, 1 + y * 8, 7, 7);
+		ctx.fillRect(2 + x * 8, 1 + y * 8, 7, 7);
     }
 
 }
