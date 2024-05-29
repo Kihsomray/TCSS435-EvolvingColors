@@ -13,40 +13,58 @@ class Animat {
         return new Animat(this.hue + Math.random() * 16 - 8, 100);
     }
 
-    update(rate, tarnoid, i, j) {
+    update(rate, selectivity, plantTarnoid, tarnoid, i, j) {
+        let best = Infinity;
+        let x = i;
+        let y = j;
 
-        let r1 = 0, r2 = 0;
-        while (r1 == 0 && r2 == 0) {
-            r1 = randomInt(3) - 1;
-            r2 = randomInt(3) - 1;
+        for (let dx = -1; dx <= 1; dx++) {
+            for (let dy = -1; dy <= 1; dy++) {
+                let newX = (i + dx + WIDTH) % WIDTH;
+                let newY = (j + dy + HEIGHT) % HEIGHT;
+                let cell = plantTarnoid[newX][newY];
+                if (cell) {
+                    let diff = Math.abs(this.hue - cell.hue);
+
+                    if (diff < best) {
+                        best = diff;
+                        x = newX;
+                        y = newY;
+                    }
+                }
+            }
         }
-        r1 += i;
-        r2 += j;
 
-        if (r1 > WIDTH - 1) r1 = 0;
-        else if (r1 < 0) r1 = WIDTH - 1;
-        if (r2 > HEIGHT - 1) r2 = 0;
-        else if (r2 < 0) r2 = HEIGHT - 1;
-
-        let cell = tarnoid[r1][r2];
-        if (cell && Math.abs(cell.hue - this.hue) < 30) { // If cell color is close to animat's hue
-            this.energy += 10; // Gain energy
-        } else {
-            this.energy -= 10; // Lose energy
+        let cell = plantTarnoid[x][y];
+        if (cell) {
+            let hueDiff = Math.abs(cell.hue - this.hue);
+            if (hueDiff < selectivity) { 
+                this.energy += rate;
+                plantTarnoid[x][y] = null;
+            } else {
+                this.energy -= rate; 
+            }
         }
 
         if (this.energy > 200) {
-            this.energy = 100;
-            tarnoid[r1][r2].push(this.createMutation()); // Create a mutated copy of itself in the same cell
+            this.energy -= 100;
+            tarnoid[x][y].push(this.createMutation());
         }
 
-        return this;
+        if (this.energy < 0) {
+
+            let index = tarnoid[i][j].indexOf(this);
+            if (index > -1) {
+                tarnoid[i][j].splice(index, 1);
+            }
+            
+        }
     }
 
     draw(ctx, x, y) {
 
         ctx.beginPath();
-        ctx.arc(1 + x * 8, -3 + y * 8, 4, 0, 2 * Math.PI);
+        ctx.arc(x * 8, -4 + y * 8, 4, 0, 2 * Math.PI);
         ctx.fillStyle = hsl(this.hue, 70, 50);
         ctx.fill();
         ctx.stroke();
