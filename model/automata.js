@@ -18,7 +18,7 @@ class Automata {
         this.clear();
         this.plantGrowth = 45;
         this.animatGrowth = 65;
-        this.animatFoodSelectivity = 60;
+        this.animatFoodSelectivity = 50;
         this.intervalCounter = 0;
         this.lowerDyingRate = true;
 
@@ -29,8 +29,8 @@ class Automata {
     init() {
 
         document.getElementById('testPreset').addEventListener('click', _ => {
-            for (let i = 0; i < 30; i++) {
-                if (i % 3 == 0) this.addPlant();
+            for (let i = 0; i < 50; i++) {
+                if (i % 5 == 0) this.addPlant();
                 this.addAnimat();
             }
         });

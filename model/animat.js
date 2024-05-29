@@ -37,7 +37,7 @@ class Animat {
 
         let cell = plantTarnoid[x][y];
         if (cell) {
-            let hueDiff = Math.abs(cell.hue - this.hue);
+            let hueDiff = Math.min(Math.abs(cell.hue - this.hue), Math.abs(360 + cell.hue - this.hue));
             if (hueDiff < selectivity) { 
                 this.energy += rate;
                 plantTarnoid[x][y] = null;
@@ -64,7 +64,7 @@ class Animat {
     draw(ctx, x, y) {
 
         ctx.beginPath();
-        ctx.arc(x * 8, -4 + y * 8, 4, 0, 2 * Math.PI);
+        ctx.arc(6 + x * 8, 4 + y * 8, 4, 0, 2 * Math.PI);
         ctx.fillStyle = hsl(this.hue, 70, 50);
         ctx.fill();
         ctx.stroke();
